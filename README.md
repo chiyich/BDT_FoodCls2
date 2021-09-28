@@ -41,15 +41,14 @@ https://www.kaggle.com/t/b7ed697207f0401b94a1f5c49c559d68
 
 # Train
 
-`CUDA_VISIBLE_DEVICES=0 python train.py`
+`export CUDA_VISIBLE_DEVICES=X`
+
+`python train.py`
 
 # Inferance
 
-这部分代码请同学们自己实现
+功能为用训练好的best模型测试 `python inferance.py` 路径下的所有图片，并生成 `result.txt` 文件
 
-功能为用训练好的模型测试 `./data/food/test` 路径下的所有图片，并生成 `submission.txt` 文件
-
-请注意提交格式
 
 # Tips
 
