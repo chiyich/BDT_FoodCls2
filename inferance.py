@@ -80,15 +80,15 @@ def main():
     filename = 'result.txt'
     start = time.time()
     with torch.no_grad() and open (filename, 'w') as file_object:
-        file_object.write("Id, Expected\n")
+        file_object.write("Id,Expected\n")
         for i, (images,name) in enumerate(dataset):
             images = images.cuda(cfg.gpu, non_blocking=True)
             output = model(images)
             _, predicted = output.max(1)
-            file_object.write(name+", "+str(predicted.cpu().numpy()[0])+"\n")
+            file_object.write(name+","+str(predicted.cpu().numpy()[0])+"\n")
             process_bar(i/len(dataset), time.time()-start, name)
     
-    print("\nFinish !  time:"+time.time()-start+"s")
+    print("\nFinish !  time:"+str(time.time()-start)+"s")
 
 
 if __name__ == '__main__':

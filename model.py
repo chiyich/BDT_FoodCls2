@@ -202,8 +202,6 @@ def resnet34(**kwargs):
     return _resnet('resnet34', BasicBlock, [3, 4, 6, 3], **kwargs)
 
 
-
-
 def ohem_loss(pred, target, ratio=0.8):
     keep_num = int(pred.shape[0]*ratio)
     loss = torch.nn.CrossEntropyLoss(reduce=False)(pred, target)
