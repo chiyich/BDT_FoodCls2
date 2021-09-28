@@ -47,8 +47,9 @@ https://www.kaggle.com/t/b7ed697207f0401b94a1f5c49c559d68
 
 # Inferance
 
-功能为用训练好的best模型测试 `python inferance.py` 路径下的所有图片，并生成 `result.txt` 文件
+功能为用训练好的best模型测试 `test` 路径下的所有图片，并生成 `result.txt` 文件
 
+ `python inferance.py` 
 
 # Tips
 
