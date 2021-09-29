@@ -13,6 +13,7 @@ from torchvision import transforms
 from torch.utils.data import Dataset
 
 from model import resnet34
+from densenet import densenet121
 import config as cfg
 import time
 import math
@@ -58,7 +59,7 @@ class Testset(Dataset):
         return sample.unsqueeze(0),self.name[index]
 
 def main():
-    model = resnet34()
+    model = densenet121()
     state_dict = torch.load(cfg.root+'/ckpt/model_best.pth.tar')
     model.load_state_dict(state_dict['state_dict_model'])
 

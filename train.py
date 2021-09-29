@@ -13,12 +13,13 @@ from torch.utils.data import Dataset
 
 from dataset import Food_LT
 from model import resnet34, FocalLoss
+from densenet import densenet121
 import config as cfg
 from utils import adjust_learning_rate, save_checkpoint, train, validate, logger
 
 
 def main():
-    model = resnet34()
+    model = densenet121()
     
     if cfg.resume:
         state_dict = torch.load(cfg.root+'/ckpt/current.pth.tar')
