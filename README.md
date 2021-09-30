@@ -8,12 +8,12 @@ https://www.kaggle.com/t/b7ed697207f0401b94a1f5c49c559d68
 池逸尘 段毅甫 王思琪 叶雨欣
 
 # Environment
-- python 3.6
-- torch 1.5.1
-- torchvision 0.6.0
+- python 3.8
+- torch 1.9.0
+- torchvision 0.10.0
 - tqdm
 
-必须用 `GPU` 跑 Q.Q
+必须用 `GPU` 跑 Q.Q -> NVIDIA Geforce GTX1080Ti
 
 # Download
 
@@ -51,5 +51,8 @@ https://www.kaggle.com/t/b7ed697207f0401b94a1f5c49c559d68
 
  `python inferance.py` 
 
-# Tips
+# Models and Results
+
+现在有几个模型：ResNet34、DenseNet121
+0.462->0.485->0.506
 
