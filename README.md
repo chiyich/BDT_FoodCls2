@@ -1,6 +1,7 @@
 # Food_cls src files for forme's team.
 
 Src files for SIGS_Big_Data_ML_Exam_2021.
+
 https://www.kaggle.com/t/b7ed697207f0401b94a1f5c49c559d68
 
 # Member
@@ -54,5 +55,6 @@ https://www.kaggle.com/t/b7ed697207f0401b94a1f5c49c559d68
 # Models and Results
 
 现在有几个模型：ResNet34、DenseNet121
+
 0.462->0.485->0.506
 
