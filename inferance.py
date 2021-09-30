@@ -17,14 +17,8 @@ from densenet import densenet121
 import config as cfg
 import time
 import math
-
-
-def process_bar(precent, clks, strs='', width=30):
-    use_num = math.ceil(precent*width)
-    space_num = int(width-use_num)
-    precent = precent*100
-    print(strs+' [%s%s]%3.0f%%     %3.2fs'%(use_num*'■', space_num*' ',precent,clks),file=sys.stdout,flush=True, end='\r')
-
+from tqdm import tqdm
+from datetime import datetime
 
 transform_test = transforms.Compose([
         transforms.Resize(256),
@@ -56,7 +50,7 @@ class Testset(Dataset):
             sample = Image.open(f).convert('RGB')
         if self.transform is not None:
             sample = self.transform(sample)
-        return sample.unsqueeze(0),self.name[index]
+        return sample,self.name[index]
 
 def main():
     model = densenet121()
@@ -73,21 +67,23 @@ def main():
         model = model.cuda(cfg.gpu)
 
     dataset = Testset()
+    dataloader = torch.utils.data.DataLoader(dataset,batch_size=cfg.batch_size*4, num_workers=4, pin_memory=True)
     # switch to evaluate mode
     model.eval()
 
     class_num = torch.zeros(cfg.num_classes).cuda()
     pred_class = np.array([])
-    filename = 'result.txt'
+    filename = 'result/result'+datetime.now().strftime("%m-%d-%H-%M")+'.txt'
     start = time.time()
-    with torch.no_grad() and open (filename, 'w') as file_object:
-        file_object.write("Id,Expected\n")
-        for i, (images,name) in enumerate(dataset):
-            images = images.cuda(cfg.gpu, non_blocking=True)
-            output = model(images)
-            _, predicted = output.max(1)
-            file_object.write(name+","+str(predicted.cpu().numpy()[0])+"\n")
-            process_bar(i/len(dataset), time.time()-start, name)
+    with torch.no_grad():
+        with open (filename, 'w') as file_object:
+            file_object.write("Id,Expected\n")
+            for i, (images,name) in enumerate(tqdm(dataloader)):
+                images = images.cuda(cfg.gpu, non_blocking=True)
+                output = model(images)
+                _, predicted = output.max(1)
+                for i in range(len(predicted)):
+                    file_object.write(name[i]+","+str(predicted[i].cpu().numpy())+"\n")
     
     print("\nFinish !  time:"+str(time.time()-start)+"s")
 

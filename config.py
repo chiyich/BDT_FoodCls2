@@ -1,6 +1,6 @@
 root = './'
 log_path = './log/log.txt'
-resume = False
+resume = True
 
 gpu = 0
 num_classes = 101

@@ -89,7 +89,7 @@ class Food_LT(object):
         normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
         
         transform_train = transforms.Compose([
-            transforms.RandomResizedCrop(size=224,scale=(0.08, 1.0), ratio=(0.75, 1.333333)),
+            transforms.RandomResizedCrop(size=224,scale=(0.08, 1.2), ratio=(0.75, 1.333333)),
             transforms.RandomHorizontalFlip(),
             transforms.RandomRotation(20),
             transforms.ColorJitter(brightness=0.4, contrast=0.4, saturation=0.4, hue=0),
