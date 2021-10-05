@@ -6,6 +6,7 @@ import torch
 import torch.nn.functional as F
 from tqdm import tqdm
 import config as cfg
+from torch.cuda.amp import autocast as autocast
 
 class AverageMeter(object):           
     """ Computes and stores the average and current value """
@@ -92,7 +93,7 @@ def save_checkpoint(state, is_best, model_dir):
         shutil.copyfile(filename, model_dir + '/ckpt/model_best.pth.tar')
      
         
-def train(train_loader, model, criterion, optimizer, epoch):
+def train(train_loader, model, criterion, optimizer, epoch, scaler):
     batch_time = AverageMeter('Time', ':6.3f')
     data_time = AverageMeter('Data', ':6.3f')
     losses = AverageMeter('Loss', ':.3f')
@@ -107,26 +108,29 @@ def train(train_loader, model, criterion, optimizer, epoch):
     for i, (images, target) in enumerate(tqdm(train_loader)):
         if i > end_steps:
             break
+        with autocast():
+            data_time.update(time.time() - end)
+            if torch.cuda.is_available():
+                images = images.cuda(cfg.gpu, non_blocking=True)
+                target = target.cuda(cfg.gpu, non_blocking=True)
+                output = model(images)
+                loss = criterion(output, target)
 
-        data_time.update(time.time() - end)
+            acc1, acc5 = accuracy(output, target, topk=(1, 5))
+            
+            losses.update(loss.item(), images.size(0))
+            top1.update(acc1[0], images.size(0))
+            top5.update(acc5[0], images.size(0))
 
-        if torch.cuda.is_available():
-            images = images.cuda(cfg.gpu, non_blocking=True)
-            target = target.cuda(cfg.gpu, non_blocking=True)
-            output = model(images)
-            loss = criterion(output, target)
-
-        acc1, acc5 = accuracy(output, target, topk=(1, 5))
-        
-        losses.update(loss.item(), images.size(0))
-        top1.update(acc1[0], images.size(0))
-        top5.update(acc5[0], images.size(0))
-
-        # compute gradient and do SGD step
+            # compute gradient and do SGD step
         optimizer.zero_grad()
-        loss.backward()
-        optimizer.step()
+        #loss.backward()
+        #optimizer.step()
+        scaler.scale(loss).backward()
+        scaler.step(optimizer)
 
+        # 准备着，看是否要增大scaler
+        scaler.update()
         # measure elapsed time
         batch_time.update(time.time() - end)
         end = time.time()

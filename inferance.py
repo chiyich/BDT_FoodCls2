@@ -11,14 +11,15 @@ import torchvision
 import torchvision.datasets
 from torchvision import transforms
 from torch.utils.data import Dataset
-
-from model import resnet34
-from densenet import densenet121
 import config as cfg
 import time
 import math
 from tqdm import tqdm
 from datetime import datetime
+
+from model.model import resnet34
+from model.densenet import densenet121
+from model.SWTDN import swtdn121
 
 transform_test = transforms.Compose([
         transforms.Resize(256),
@@ -53,7 +54,7 @@ class Testset(Dataset):
         return sample,self.name[index]
 
 def main():
-    model = densenet121()
+    model = swtdn121()
     state_dict = torch.load(cfg.root+'/ckpt/model_best.pth.tar')
     model.load_state_dict(state_dict['state_dict_model'])
 
