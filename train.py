@@ -20,7 +20,7 @@ from utils import adjust_learning_rate, save_checkpoint, train, validate, logger
 from torch.cuda import amp
 
 def main():
-    model = densenet161()
+    model = densenet121()
     
     if cfg.resume:
         state_dict = torch.load(cfg.root+'/ckpt/current.pth.tar')

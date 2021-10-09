@@ -18,7 +18,7 @@ from tqdm import tqdm
 from datetime import datetime
 
 from model.model import resnet34
-from model.densenet import densenet121
+from model.densenet import densenet121,densenet161
 from model.SWTDN import swtdn121
 
 transform_test = transforms.Compose([
@@ -54,7 +54,7 @@ class Testset(Dataset):
         return sample,self.name[index]
 
 def main():
-    model = swtdn121()
+    model = densenet161()
     state_dict = torch.load(cfg.root+'/ckpt/model_best.pth.tar')
     model.load_state_dict(state_dict['state_dict_model'])
 
