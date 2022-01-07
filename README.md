@@ -1,4 +1,4 @@
-# Food_cls src files for forme's team.
+# Food_cls src files for VIPlab's team.
 
 Src files for SIGS_Big_Data_ML_Exam_2021.
 
