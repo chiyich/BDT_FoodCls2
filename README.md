@@ -6,7 +6,7 @@ https://www.kaggle.com/t/b7ed697207f0401b94a1f5c49c559d68
 
 # Member
 （按姓名首字母排序）
-池逸尘 段毅甫 王思琪 叶雨欣
+池逸尘 段毅甫 王思琦 叶雨欣
 
 # Environment
 - python 3.8
@@ -16,7 +16,6 @@ https://www.kaggle.com/t/b7ed697207f0401b94a1f5c49c559d68
 
 必须用 `GPU` 跑 Q.Q
 - NVIDIA GeForce GTX1080 Ti
-- NVIDIA GeForce RTX3090
 
 # Download
 
